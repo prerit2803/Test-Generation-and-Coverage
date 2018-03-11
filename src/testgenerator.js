@@ -9,17 +9,24 @@ const _       = require('lodash');
 // Mock file operations
 const mockFileLibrary = {
     pathExists: {
-        // 'path/fileExists': {  },
-        // 'path/nonempty': { 'file': '' },
         emptyDir: 'mock.directory()',
         nonEmptyDir: 'mock.directory({ items: { file: mock.file() } })',
         file: 'mock.file()'
+    },
+    pathDoesNotExists: {
+        emptyDir: 'mock.directory()'
     },
     fileWithContent: {
         pathContent: {
             file1: "new Buffer('abc')",
             someDir: 'mock.directory()'
         }
+    },
+    fileWithNoContent: {
+      pathContent: {
+        file1: 'mock.file()',
+        someDir: 'mock.directory()'
+      }
     }
 };
 
@@ -53,6 +60,8 @@ function generateTestCases(filepath, functionConstraints) {
         let allConstraints = _.flattenDeep(_.map(constraints));
         let fileWithContent = _.some(allConstraints, { kind: 'fileWithContent' });
         let pathExists      = _.some(allConstraints, { kind: 'fileExists' });
+        let pathDoesNotExists      = _.some(allConstraints, { kind: 'pathDoesNotExists' });
+        let fileWithNoContent      = _.some(allConstraints, { kind: 'fileWithNoContent' });
 
         // Generate function argument strings from parameter objects.
         for (let combination of argCombinations) {
@@ -62,11 +71,23 @@ function generateTestCases(filepath, functionConstraints) {
 
             // If some constraint is of type fileWithContent or pathExists
             // Generate all combinations of file system test cases.
-            if( pathExists || fileWithContent ) {
-                content += generateMockFsTestCases(true,  true,  funcName, args);
-                content += generateMockFsTestCases(false, true,  funcName, args);
-                content += generateMockFsTestCases(true,  false, funcName, args);
-                content += generateMockFsTestCases(false, false, funcName, args);
+            if( pathExists || fileWithContent || pathDoesNotExists || fileWithNoContent ) {
+                content += generateMockFsTestCases(true,  true, false, false,  funcName, args);
+                content += generateMockFsTestCases(false, true, false, false, funcName, args);
+                content += generateMockFsTestCases(true,  false, false, false,funcName, args);
+                content += generateMockFsTestCases(false, false, false, false, funcName, args);
+                content += generateMockFsTestCases(true,  true, true, true,  funcName, args);
+                content += generateMockFsTestCases(false, true, true, true, funcName, args);
+                content += generateMockFsTestCases(true,  false, true, true,funcName, args);
+                content += generateMockFsTestCases(false, false, true, true, funcName, args);
+                content += generateMockFsTestCases(false, false, true,  true,  funcName, args);
+                content += generateMockFsTestCases(false, false, false, true,  funcName, args);
+                content += generateMockFsTestCases(false, false, true,  false, funcName, args);
+                content += generateMockFsTestCases(false, false, false, false, funcName, args);
+                content += generateMockFsTestCases(true, true, true,  true,  funcName, args);
+                content += generateMockFsTestCases(true, true, false, true,  funcName, args);
+                content += generateMockFsTestCases(true, true, true,  false, funcName, args);
+                content += generateMockFsTestCases(true, true, false, false, funcName, args);
             }
             // Otherwise, just generate the naive test of calling the function
             // with default arguments and alternative arguments.
@@ -89,11 +110,13 @@ function generateTestCases(filepath, functionConstraints) {
  *
  * @param   {Boolean} pathExists      Whether or not to mock the path existing.
  * @param   {Boolean} fileWithContent Whether or not to mock the file existing with content.
+ * @param   {Boolean} pathDoesNotExists      Whether or not to mock the path not existing.
+ * @param   {Boolean} fileWithNoContent Whether or not to mock the file existing with no content.
  * @param   {String}  funcName        Name of the function under test.
  * @param   {String}  args            Function argument string.
  * @returns {string}                  Full text of the generated file system test.
  */
-function generateMockFsTestCases (pathExists, fileWithContent, funcName, args) {
+function generateMockFsTestCases (pathExists, fileWithContent, pathDoesNotExists, fileWithNoContent, funcName, args) {
 
     // Partial test data
     let testCase = "";
@@ -105,6 +128,11 @@ function generateMockFsTestCases (pathExists, fileWithContent, funcName, args) {
             mergedFS[attrname] = mockFileLibrary.pathExists[attrname];
         }
     }
+    if( pathDoesNotExists ) {
+        for (let attrname in mockFileLibrary.pathDoesNotExists) {
+            mergedFS[attrname] = mockFileLibrary.pathDoesNotExists[attrname];
+        }
+    }
 
     // Add mock data for content if fileWithContent is true.
     if( fileWithContent ) {
@@ -112,7 +140,11 @@ function generateMockFsTestCases (pathExists, fileWithContent, funcName, args) {
             mergedFS[attrname] = mockFileLibrary.fileWithContent[attrname];
         }
     }
-
+    if( fileWithNoContent ) {
+        for (let attrname in mockFileLibrary.fileWithNoContent) {
+            mergedFS[attrname] = mockFileLibrary.fileWithNoContent[attrname];
+        }
+    }
     // Generate and return test case string.
     testCase += 'try{\n';
     testCase += `\tmock(${JSON.stringify(mergedFS).replace(/"/g, '')});\n`;

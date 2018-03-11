@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "mocha;./node_modules/.bin/istanbul cover test.js",
-    "fulltest": "node main.js && istanbul cover _mocha test.js"    
+    "fulltest": "node main.js && istanbul cover _mocha test.js"
   },
   "author": "",
   "license": "ISC",
