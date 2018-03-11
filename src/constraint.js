@@ -266,9 +266,9 @@ function constraints(filePath) {
 
               functionConstraints[funcName].constraints[ident].push(new Constraint({
                 ident: params[p],
-                value:  "'pathContent/file1'",
+                value:  "'file'",
                 funcName: funcName,
-                kind: "fileWithNoContent",
+                kind: "pathExists",
                 operator : child.operator,
                 expression: expression
               }));
@@ -321,24 +321,16 @@ function constraints(filePath) {
                     operator : child.operator,
                     expression: expression
                 }));
-                // functionConstraints[funcName].constraints[ident].push(new Constraint({
-                //     ident: params[p],
-                //     value:  "'pathContent/someDir'",
-                //     funcName: funcName,
-                //     kind: "fileWithContent",
-                //     operator : child.operator,
-                //     expression: expression
-                // }));
-              // }else if(ident == 'dire'){
+              // }else if(ident == 'dir'){
 
-              // functionConstraints[funcName].constraints[ident].push(new Constraint({
-              //   ident: params[p],
-              //   value:  "'null'",
-              //   funcName: funcName,
-              //   kind: "pathDoesNotExists",
-              //   operator : child.operator,
-              //   expression: expression
-              // }));
+              functionConstraints[funcName].constraints[ident].push(new Constraint({
+                ident: params[p],
+                value:  "'null'",
+                funcName: funcName,
+                kind: "pathExists",
+                operator : child.operator,
+                expression: expression
+              }));
               functionConstraints[funcName].constraints[ident].push(new Constraint({
                 ident: params[p],
                 value:  "'nonEmptyDir'",
