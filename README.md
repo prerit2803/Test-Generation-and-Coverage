@@ -12,8 +12,8 @@
 ##### See a fully annotated html report here:
 Exit the baker machine and type the following in your terminal:
     
-    open coverage/lcov-report/TestGeneration/index.html
-    start coverage/lcov-report/TestGeneration/index.html (Windows)
+    open coverage/lcov-report/CSC519-HW2/index.html
+    start coverage/lcov-report/CSC519-HW2/index.html (Windows)
 
 ## Screenshots
 
