@@ -7,7 +7,7 @@
     cd /CSC519-HW2
     npm install
     node main.js
-    node run test
+    npm run test
 
 ##### See a fully annotated html report here:
 Exit the baker machine and type the following in your terminal:
