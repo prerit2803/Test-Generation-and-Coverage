@@ -15,3 +15,13 @@
 
 ## Screenshots
 
+![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage-report.gif)
+
+### subject.js  
+
+![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage%20Report.png)
+
+
+### mystery.js   
+
+![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage%20Report-mystery.png)
