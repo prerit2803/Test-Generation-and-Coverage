@@ -17,15 +17,15 @@ Exit the baker machine and type the following in your terminal:
 
 ## Screenshots
 
-![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage-report.gif)
+![](./Coverage-report.gif)
 
 ### subject.js  
 
-![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage%20Report.png)
+![](./Coverage%20Report.png)
 
 
-![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage-report-subject.gif)
+![](./Coverage-report-subject.gif)
 
 ### mystery.js   
 
-![](https://github.ncsu.edu/pbhanda2/CSC519-HW2/blob/master/Coverage%20Report-mystery.png)
+![](./Coverage%20Report-mystery.png)
